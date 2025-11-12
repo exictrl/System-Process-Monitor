@@ -53,7 +53,7 @@ public:
 - Реализовать класс ProcessInfo
 - Написать метод getRunningProcesses() с использованием WinAPI (CreateToolhelp32Snapshot, Process32First, Process32Next)
 
- 2: Управление памятью и умные указатели
+## 2: Управление памятью и умные указатели
 
 **Теория для изучения:**
 - Умные указатели (unique_ptr, shared_ptr, weak_ptr)
