@@ -30,6 +30,7 @@ public:
 //static - принадлжеит к классу, а не объекту; умный указатель автоматически удаляется когда не нужен; вектор возвращает список процессов;
     static std::vector <std::shared_ptr<ProcessInfo>> getRunningProcesses(); 
     static std::shared_ptr<ProcessInfo> getProcessInfo(DWORD pid);
+    static std::string getProcessPath(DWORD pid);
 };
 
 /*

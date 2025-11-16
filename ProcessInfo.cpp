@@ -33,10 +33,12 @@ Process32Next - получаем следующий процесс
 */
     if (Process32First(snapshot, &processEntry)) {
         do {
+            std::string fullPath = getProcessPath(processEntry.th32ProcessID);
+
             auto process = std::make_shared<ProcessInfo>(
                 processEntry.th32ProcessID, //PID
                 processEntry.szExeFile, //name of file
-                "", //path
+                fullPath, //path
                 processEntry.th32ParentProcessID //Parent PID
             );
             processes.push_back(process);
@@ -54,3 +56,21 @@ WinAPI функции: CreateToolhelp32Snapshot, Process32First/Next
 Умные указатели: std::make_shared для автоматического управления памятью
 Список инициализации в конструкторе - эффективная инициализация
 */
+
+std::string ProcessInfo::getProcessPath(DWORD pid) {
+    HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
+    if (!hProcess) {
+        return "";
+    }
+
+    char path[MAX_PATH];
+    DWORD pathSize = MAX_PATH;
+    
+    if(GetModuleFileNameExA(hProcess, NULL, path, pathSize)) {
+        CloseHandle(hProcess);
+        return std::string(path);
+    }
+
+    CloseHandle(hProcess);
+    return "";
+}
