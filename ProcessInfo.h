@@ -5,6 +5,8 @@
 #include <memory> //shared_ptr
 #include <vector> 
 
+class ProcessInfo;
+
 class ProcessInfo {
 
 private:
