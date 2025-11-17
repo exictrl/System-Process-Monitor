@@ -5,6 +5,8 @@
 #include <sstream>
 #include <wincrypt.h>
 #include <vector>
+#include <algorithm>
+
 
 bool SecurityUtils::isRunningAsAdmin() {
     BOOL isAdmin = FALSE;
@@ -53,12 +55,12 @@ std::string SecurityUtils::calculateFileHash(const std::string& filePath) {
     DWORD bytesRead = 0;
     BOOL success = TRUE;
 
-    while (success = ReadFile (hFile, buffer, BUFFER_SIZE, &bytesRead, NULL)) {
+    while ((success = ReadFile (hFile, buffer, BUFFER_SIZE, &bytesRead, NULL))) {
         if (bytesRead == 0) {
             break;
         }
         if (!CryptHashData (hHash, buffer, bytesRead, 0)) {
-            std::cerr << "CryptHash faild" << std::endl;
+            std::cerr << "CryptHash failed" << std::endl;
             break;
         }
     }
